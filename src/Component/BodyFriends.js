@@ -31,15 +31,17 @@ class BodyFriends extends Component {
 
                     <View style={{ flexDirection: 'row', marginTop: 5 }}>
                         <View style={{ flex: 1, marginLeft: 10, marginVertical: 10, }}>
-                            <Image source={require('../Asset/default_foto.png')}
-                                style={{ height: 60, width: 60 }}>
-                            </Image>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen')}>
+                                <Image source={require('../Asset/default_foto.png')}
+                                    style={{ height: 60, width: 60 }}>
+                                </Image>
+                            </TouchableOpacity>
                         </View>
                         <View style={{ flex: 4, flexDirection: 'row', marginRight: 10, marginLeft: 20, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
                             < View style={{ flex: 3 }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen')}>
-                                    < Text style={{ fontSize: 18 }}>Kevin Maulana </Text>
-                                </TouchableOpacity>
+
+                                < Text style={{ fontSize: 18 }}>Kevin Maulana </Text>
+
                             </View>
                             <View style={{ flex: 1, alignItems: 'center' }}>
                                 <View style={{ width: 10, height: 10, backgroundColor: 'red', borderRadius: 10 }}></View>

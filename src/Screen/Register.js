@@ -19,16 +19,24 @@ class Register extends Component {
     handleAddData(email, password) {
         auth.createUserWithEmailAndPassword(email, password)
             .then(res => {
+                try {
+                    db.ref('/data-username').push({
+                        username: email,
+                        email: email,
+                        status: '',
+                        image: ''
+                    })
+                } catch (error) {
+                    console.log(error)
+                }
+
                 this.props.navigation.navigate('LoginScreen')
+
             })
             .catch(error => {
                 console.log(error.message)
-                // var errorCode = error.code;
-                // var errorMessage = error.message;
                 this.setState({ message: error.message })
-
             })
-
     }
 
 

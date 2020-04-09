@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, ScrollView, Image, Text, FlatList } from 'react-native'
 import { withNavigation } from 'react-navigation'
+import { db, auth } from '../Config/firebase'
 import Icon from 'react-native-vector-icons/FontAwesome5'
 
 
@@ -9,9 +10,31 @@ class Profile extends Component {
         foto: ['../Component/default_foto.png', '../Component/default_foto.png', '../Component/default_foto.png', '../Component/default_foto.png'
             , '../Component/default_foto.png'
 
-        ]
+        ],
+        profile: {},
+    }
+
+    componentDidMount() {
+        this.listenMyData()
+    }
+    listenMyData() {
+
+        let itemsRef = db.ref(`/data-username/`);
+        itemsRef.on('value', (res) => {
+            let data = res.val();
+            const objectArray = Object.values(data)
+            const email = this.props.navigation.state.params.email
+            for (let i = 0; i < objectArray.length; i++) {
+                if (objectArray[i].email == email) {
+                    this.setState({ profile: objectArray[i] })
+                } else {
+
+                }
+            }
+        })
     }
     render() {
+        console.log(this.state.profile, 'woi')
 
         return (
             <ScrollView style={{ flex: 1, backgroundColor: '#FCCAE5' }}>
@@ -41,12 +64,16 @@ class Profile extends Component {
                         </View>
 
                         <View style={{ height: 60 }}>
-                            <Text style={{ fontSize: 18 }}>No Status</Text>
+                            {this.state.profile &&
+                                <Text style={{ fontSize: 18 }}>{this.state.profile.status}</Text>
+                            }
                             <Text style={{ fontSize: 14, color: 'grey' }}>Status</Text>
                         </View>
 
                         <View style={{ height: 60 }}>
-                            <Text style={{ fontSize: 18 }}>Kevin Maulana</Text>
+                            {this.state.profile &&
+                                <Text style={{ fontSize: 18 }}>{this.state.profile.username}</Text>
+                            }
                             <Text style={{ fontSize: 14, color: 'grey' }}>Username</Text>
                         </View>
                     </View>
