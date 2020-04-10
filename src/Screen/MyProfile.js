@@ -3,8 +3,9 @@ import { View, ScrollView, Image, Text, FlatList, StyleSheet, Modal, Alert, Yell
 import { withNavigation } from 'react-navigation'
 import { TouchableOpacity, TouchableHighlight } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome5'
-// import ImagePicker from 'react-native-image-picker'
+import ImagePicker from 'react-native-image-picker'
 import { storage, auth, db } from '../Config/firebase'
+import uriBlob from '../Helper/blob'
 
 YellowBox.ignoreWarnings([
     'VirtualizedList: missing keys for items',
@@ -26,7 +27,8 @@ class Profile extends Component {
         modalVisible: false,
         modalStatus: false,
         fullname: '',
-        status: ''
+        status: '',
+        filePath: []
     }
 
 
@@ -90,15 +92,118 @@ class Profile extends Component {
         })
     }
 
+    chooseFile = () => {
+        const options = {
+            noData: true,
+        };
+
+        ImagePicker.showImagePicker(options, response => {
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+                alert(response.customButton);
+            } else {
+                let source = response;
+
+                this.setState({
+                    filePath: source,
+                });
+                this.submitCreateItems()
+            }
+        });
+    };
+
+    async submitCreateItems() {
+        try {
+            const image = {
+                name: this.state.filePath.fileName,
+                uri: this.state.filePath.uri,
+            }
+
+            var metadata = {
+                contentType: this.state.filePath.type
+            };
+
+            var blob = await uriBlob(this.state.filePath.uri);
+            console.log('ini blob', blob)
+            const data = await storage.ref(`images/${image.name}`).put(blob, metadata)
+            if (data) {
+                storage.ref(data.metadata.fullPath).getDownloadURL().then((downloadURL) => {
+                    console.log('File available at', downloadURL)
+                    const id = this.state.myId
+                    console.log('idnyack', id)
+
+                    db.ref('data-username/' + id).update({
+                        image: `${downloadURL}`,
+                    })
+                })
+            }
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    //     data.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
+    //         function (snapshot) {
+    //             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+    //             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+    //             console.log('Upload is ' + progress + '% done');
+    //             switch (snapshot.state) {
+    //                 case firebase.storage.TaskState.PAUSED: // or 'paused'
+    //                     console.log('Upload is paused');
+    //                     break;
+    //                 case firebase.storage.TaskState.RUNNING: // or 'running'
+    //                     console.log('Upload is running');
+    //                     break;
+    //             }
+    //         }, function (error) {
+
+    //             // A full list of error codes is available at
+    //             // https://firebase.google.com/docs/storage/web/handle-errors
+    //             switch (error.code) {
+    //                 case 'storage/unauthorized':
+    //                     // User doesn't have permission to access the object
+    //                     break;
+
+    //                 case 'storage/canceled':
+    //                     // User canceled the upload
+    //                     break;
+
+
+    //                 case 'storage/unknown':
+    //                     // Unknown error occurred, inspect error.serverResponse
+    //                     break;
+    //             }
+    //         }, function () {
+    //             // Upload completed successfully, now we can get the download URL
+    //             uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
+    //                 console.log('File available at', downloadURL);
+    //             });
+    //         });
+    // }
+
+
     render() {
         console.log('myProfile', this.state.myProfile)
         console.log('myProfile', this.state.fullname)
         console.log(this.state.modalVisible)
         return (
-            <ScrollView style={{ flex: 1, backgroundColor: '#FCCAE5', }}>
+            <ScrollView style={{ flex: 1, backgroundColor: '#FCCAE5', }} >
                 <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
-                    <TouchableOpacity onPress={() => this.upload()}>
-                        <Image source={require('../Asset/default_foto.png')} style={{ height: 200, width: 200, borderRadius: 140 }}></Image>
+                    <TouchableOpacity onPress={() => this.chooseFile()}>
+                        {this.state.myProfile !== null &&
+                            <Image source={{ uri: `${this.state.myProfile.image}` }} style={{ height: 200, width: 200, borderRadius: 140 }}></Image>
+
+                        }
+
+                        {this.state.myProfile == null &&
+                            <Image source={require('../Asset/default_foto.png')} style={{ height: 200, width: 200, borderRadius: 140 }}></Image>
+
+                        }
                     </TouchableOpacity>
                 </View>
 
@@ -173,7 +278,8 @@ class Profile extends Component {
                 <View style={{ height: 10 }}></View>
 
 
-                {this.state.modalVisible === true &&
+                {
+                    this.state.modalVisible === true &&
                     <Modal
                         animationType="fade"
                         transparent={true}
@@ -223,7 +329,8 @@ class Profile extends Component {
                 }
 
 
-                {this.state.modalStatus === true &&
+                {
+                    this.state.modalStatus === true &&
                     <Modal
                         animationType="fade"
                         transparent={true}
@@ -272,9 +379,9 @@ class Profile extends Component {
                     </Modal>
                 }
 
-                <View style={{ height: 20 }}>
+                < View style={{ height: 20 }}>
                     <Button title='Logout' color='#f590e6' onPress={() => this.logoutUser()}></Button>
-                </View>
+                </View >
 
                 <View style={{ height: 30 }}></View>
             </ScrollView >

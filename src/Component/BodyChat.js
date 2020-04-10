@@ -40,7 +40,7 @@ class BodyChat extends Component {
                                 <Text style={{ textAlign: 'right', marginTop: -16, color: 'grey' }}>07.12</Text>
                             </View>
                         </>
-                        console.log(v)
+
                         if (v.pengirim == auth.currentUser.email && v.penerima == this.props.data.email || v.pengirim == this.props.data.email && v.penerima == auth.currentUser.email) {
                             if (v.pengirim == auth.currentUser.email) {
                                 return (

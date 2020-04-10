@@ -9,7 +9,8 @@ class BodyAddFriends extends Component {
         myProfile: {},
         myId: null,
         myFriendId: [],
-        myFriendProfile: []
+        myFriendProfile: [],
+
     }
     componentDidMount() {
         this.listenMyData()
@@ -21,18 +22,18 @@ class BodyAddFriends extends Component {
             let data = res.val();
             const objectKeys = Object.keys(data)
             const objectArray = Object.values(data)
-
             for (let i = 0; i < objectArray.length; i++) {
                 if (objectArray[i].email == auth.currentUser.email) {
                     this.setState({ myProfile: objectArray[i], myId: objectKeys[i] })
                 } else {
                     this.state.myFriendProfile.push(objectArray[i])
                     this.state.myFriendId.push(objectKeys[i])
-
                 }
             }
         })
     }
+
+
 
     render() {
         return (

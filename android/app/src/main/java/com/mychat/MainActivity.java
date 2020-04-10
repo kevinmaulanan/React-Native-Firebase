@@ -1,4 +1,4 @@
-package com.week_6;
+package com.mychat;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "Week_6";
+    return "MyChat";
   }
 }
