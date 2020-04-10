@@ -20,17 +20,7 @@ class BodyHome extends Component {
         friendChat.on('value', (res) => {
             let data = res.val()
             const objectData = Object.values(data)
-            for (let i = 0; i < objectData.length; i++) {
-                if (objectData[i].penerima == auth.currentUser.email || objectData[i].pengirim == auth.currentUser.email) {
-                    console.log('da', objectData[i++].jam)
-                    console.log('da', objectData[i].jam)
-                    this.setState({ friend: objectData[i] })
 
-
-                } else {
-
-                }
-            }
 
         })
 

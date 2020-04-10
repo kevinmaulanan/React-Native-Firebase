@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import MainNavigator from './src/Routes/MainNavigator'
+
+import Router from './src/Routes/Router'
 
 export default class App extends Component {
   render() {
     return (
-      <MainNavigator />
+      <Router />
     )
   }
 }

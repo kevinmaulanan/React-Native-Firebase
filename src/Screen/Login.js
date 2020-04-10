@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ScrollView, TextInput } from 'react-native'
+import { View, Text, ScrollView, TextInput, Image } from 'react-native'
 import { withNavigation } from 'react-navigation'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { db, auth } from '../Config/firebase'
@@ -33,6 +33,7 @@ class Login extends Component {
                 console.log(error.message)
                 this.setState({ message: error.message })
             });
+
     }
 
     handleSend() {
@@ -53,7 +54,7 @@ class Login extends Component {
                     <Text style={{ color: 'white', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}>Login Screen App</Text>
                 </View>
                 <View style={{ height: 90, justifyContent: 'center', }}>
-                    <Text style={{ color: '#f590e6', fontSize: 30, marginLeft: 10, fontWeight: 'bold', textAlign: 'center' }}>My Chat</Text>
+                    <Image source={require('../Asset/Logo.png')} style={{ height: 120, width: 120 }} />
                 </View>
 
                 {this.state.message !== '' &&
