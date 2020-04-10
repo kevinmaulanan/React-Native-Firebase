@@ -20,6 +20,7 @@ class NavBarChat extends Component {
     }
 
     render() {
+        console.log('data', this.props.data)
         return (
             <View style={{ flexDirection: 'row', height: 55, backgroundColor: '#f590e6', }}>
                 <View style={{ width: 40 }}>
@@ -27,23 +28,19 @@ class NavBarChat extends Component {
                 </View>
 
                 <View style={{ width: 50, justifyContent: 'center' }}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen')}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen', { data: this.props.data })}>
                         <Image source={require('../Asset/default_foto.png')} style={{ width: 40, height: 40, borderRadius: 50 }}></Image>
                     </TouchableOpacity>
                 </View>
 
                 <View style={{ flex: 1, alignContent: 'center', justifyContent: 'center' }}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen')}>
-                        <Text style={{ color: 'white', fontSize: 18 }}>Kevin Maulana</Text>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen', { data: this.props.data })}>
+                        <Text style={{ color: 'white', fontSize: 18 }}>{this.props.data.username}</Text>
                         <Text style={{ color: 'white' }}>online</Text>
                     </TouchableOpacity>
                 </View>
             </View >
-
         )
-
-
-
     }
 
 }

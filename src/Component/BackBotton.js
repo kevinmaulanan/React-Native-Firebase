@@ -10,6 +10,7 @@ import { withNavigation } from 'react-navigation';
 class BackButtonComponent extends Component {
 
     render() {
+
         return (
             <View style={styles.container} >
                 <TouchableOpacity onPress={() => this.props.navigation.goBack()}>

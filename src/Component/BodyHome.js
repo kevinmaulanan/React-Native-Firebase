@@ -2,9 +2,55 @@ import React, { Component } from 'react'
 import { Image, View, ScrollView, Text } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { withNavigation } from 'react-navigation';
+import { db, auth } from '../Config/firebase'
+
 
 class BodyHome extends Component {
+
+    state = {
+        filtered: [],
+        friend: [],
+    }
+    componentDidMount() {
+        this.listenFriend()
+    }
+
+    listenFriend() {
+        let friendChat = db.ref('/pesan')
+        friendChat.on('value', (res) => {
+            let data = res.val()
+            const objectData = Object.values(data)
+            for (let i = 0; i < objectData.length; i++) {
+                if (objectData[i].penerima == auth.currentUser.email || objectData[i].pengirim == auth.currentUser.email) {
+                    console.log('da', objectData[i++].jam)
+                    console.log('da', objectData[i].jam)
+                    this.setState({ friend: objectData[i] })
+
+
+                } else {
+
+                }
+            }
+
+        })
+
+
+
+        // this.state.filtered.map((v) => {
+        //     if (v.pengirim == auth.currentUser.email || v.penerima == auth.currentUser.email) {
+
+        //     }
+        // }
+
+
+    }
+
+    checkFilter() {
+
+    }
+
     render() {
+        console.log('ath', auth.currentUser.email)
         return (
             <ScrollView >
                 <View style={{ flex: 1, marginBottom: 5 }}>

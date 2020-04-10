@@ -18,12 +18,11 @@ class Profile extends Component {
         this.listenMyData()
     }
     listenMyData() {
-
         let itemsRef = db.ref(`/data-username/`);
         itemsRef.on('value', (res) => {
             let data = res.val();
             const objectArray = Object.values(data)
-            const email = this.props.navigation.state.params.email
+            const email = this.props.navigation.state.params.data.email
             for (let i = 0; i < objectArray.length; i++) {
                 if (objectArray[i].email == email) {
                     this.setState({ profile: objectArray[i] })
