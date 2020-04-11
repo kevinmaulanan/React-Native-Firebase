@@ -45,15 +45,26 @@ class BodyAddFriends extends Component {
                             <>
                                 <View style={{ flexDirection: 'row', marginTop: 5 }}>
                                     <View style={{ flex: 1, marginLeft: 10, marginVertical: 10, }}>
-                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen', { data: item.email })}>
-                                            <Image source={require('../Asset/default_foto.png')}
-                                                style={{ height: 60, width: 60 }}>
-                                            </Image>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen', { data: { data: item } })}>
+
+                                            {item.image == '' &&
+                                                <Image source={require('../Asset/default_foto.png')}
+                                                    style={{ height: 60, width: 60 }}>
+                                                </Image>
+                                            }
+
+                                            {item.image !== '' &&
+                                                <Image source={{ uri: item.image }}
+                                                    style={{ height: 60, width: 60 }}>
+                                                </Image>
+                                            }
+
+
                                         </TouchableOpacity>
                                     </View>
                                     <View style={{ flex: 4, flexDirection: 'row', marginRight: 10, marginLeft: 20, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
                                         < View style={{ flex: 3 }}>
-                                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ChatDetailScreen', { email: item.email, username: item.username })}>
+                                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ChatDetailScreen', { data: item })}>
                                                 < Text style={{ fontSize: 18 }}>{item.username}</Text>
                                             </TouchableOpacity>
                                         </View>

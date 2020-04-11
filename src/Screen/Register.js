@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, ScrollView, TextInput } from 'react-native'
+import { View, Text, ScrollView, TextInput, Image } from 'react-native'
 import { withNavigation } from 'react-navigation'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { db, auth } from '../Config/firebase'
@@ -52,8 +52,8 @@ class Register extends Component {
                 <View style={{ height: 60, backgroundColor: '#f590e6', justifyContent: 'center' }}>
                     <Text style={{ color: 'white', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}>Register Screen App</Text>
                 </View>
-                <View style={{ height: 90, justifyContent: 'center', }}>
-                    <Text style={{ color: '#f590e6', fontSize: 30, marginLeft: 10, fontWeight: 'bold', textAlign: 'center' }}>My Chat</Text>
+                <View style={{ height: 150, justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 5 }}>
+                    <Image source={require('../Asset/Logo.png')} style={{ height: 150, width: 150 }} />
                 </View>
 
                 {this.state.message !== '' &&
@@ -66,7 +66,7 @@ class Register extends Component {
 
                 <View style={{ height: 90, justifyContent: 'center', }}>
                     <View style={{ height: 60, marginHorizontal: 30, borderWidth: 1, justifyContent: 'center', }}>
-                        <TextInput style={{ marginHorizontal: 10, fontSize: 16 }} placeholder='email'
+                        <TextInput style={{ marginHorizontal: 10, fontSize: 16 }} placeholder='Email'
                             onChangeText={email => this.setState({ email })}
                         ></TextInput>
                     </View>

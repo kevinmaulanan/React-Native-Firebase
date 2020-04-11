@@ -1,56 +1,88 @@
 import React, { Component } from 'react'
-import { Image, View, ScrollView, Text } from 'react-native'
+import { Image, View, ScrollView, Text, FlatList } from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { withNavigation } from 'react-navigation';
+import { db, auth } from '../Config/firebase'
 
 class BodyFriends extends Component {
+    state = {
+        myProfile: {},
+        myId: null,
+        myFriendId: [],
+        myFriendProfile: [],
+
+    }
+    componentDidMount() {
+        this.listenMyData()
+    }
+
+    listenMyData() {
+        let itemsRef = db.ref('/data-username');
+        itemsRef.on('value', (res) => {
+            let data = res.val();
+            const objectKeys = Object.keys(data)
+            const objectArray = Object.values(data)
+            for (let i = 0; i < objectArray.length; i++) {
+                if (objectArray[i].email == auth.currentUser.email) {
+                    this.setState({ myProfile: objectArray[i], myId: objectKeys[i] })
+                } else {
+                    this.state.myFriendProfile.push(objectArray[i])
+                    this.state.myFriendId.push(objectKeys[i])
+                }
+            }
+        })
+    }
+
+
+
     render() {
         return (
             <ScrollView >
                 <View style={{ flex: 1, marginBottom: 5 }}>
-                    <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                        <View style={{ flex: 1, marginLeft: 10, marginVertical: 10, }}>
-                            <Image source={require('../Asset/default_foto.png')}
-                                style={{ height: 60, width: 60 }}>
-                            </Image>
-                        </View>
-                        <View style={{ flex: 4, flexDirection: 'row', marginRight: 10, marginLeft: 20, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-                            < View style={{ flex: 3 }}>
-                                <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen')}>
-                                    < Text style={{ fontSize: 18 }}>Kevin Maulana </Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ flex: 1, alignItems: 'center' }}>
-                                <View style={{ width: 10, height: 10, backgroundColor: 'green', borderRadius: 10 }}></View>
-                            </View>
-                        </View>
-                    </View>
+                    <FlatList
+                        data={this.state.myFriendProfile}
+                        renderItem={({ item }) =>
+                            <>
+                                <View style={{ flexDirection: 'row', marginTop: 5 }}>
+                                    <View style={{ flex: 1, marginLeft: 10, marginVertical: 10, }}>
+                                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen', { data: { data: item } })}>
 
-                    <View style={{ backgroundColor: 'grey', flex: 1, height: 0.5, }}>
-                    </View>
+                                            {item.image == '' &&
+                                                <Image source={require('../Asset/default_foto.png')}
+                                                    style={{ height: 60, width: 60 }}>
+                                                </Image>
+                                            }
 
-                    <View style={{ flexDirection: 'row', marginTop: 5 }}>
-                        <View style={{ flex: 1, marginLeft: 10, marginVertical: 10, }}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfileScreen')}>
-                                <Image source={require('../Asset/default_foto.png')}
-                                    style={{ height: 60, width: 60 }}>
-                                </Image>
-                            </TouchableOpacity>
-                        </View>
-                        <View style={{ flex: 4, flexDirection: 'row', marginRight: 10, marginLeft: 20, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-                            < View style={{ flex: 3 }}>
+                                            {item.image !== '' &&
+                                                <Image source={{ uri: item.image }}
+                                                    style={{ height: 60, width: 60 }}>
+                                                </Image>
+                                            }
 
-                                < Text style={{ fontSize: 18 }}>Kevin Maulana </Text>
 
-                            </View>
-                            <View style={{ flex: 1, alignItems: 'center' }}>
-                                <View style={{ width: 10, height: 10, backgroundColor: 'red', borderRadius: 10 }}></View>
-                            </View>
-                        </View>
-                    </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={{ flex: 4, flexDirection: 'row', marginRight: 10, marginLeft: 20, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
+                                        < View style={{ flex: 3 }}>
+                                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ChatDetailScreen', { data: item })}>
+                                                < Text style={{ fontSize: 18 }}>{item.username}</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={{ flex: 1, alignItems: 'center' }}>
+                                            <View style={{ width: 10, height: 10, backgroundColor: 'green', borderRadius: 10 }}></View>
+                                        </View>
+                                    </View>
+                                </View>
 
-                    <View style={{ backgroundColor: 'grey', flex: 1, height: 0.5, }}>
-                    </View>
+                                <View style={{ backgroundColor: 'grey', flex: 1, height: 0.5, }}>
+                                </View>
+                            </>
+                        }
+
+                    >
+
+                    </FlatList>
+
                 </View>
 
 

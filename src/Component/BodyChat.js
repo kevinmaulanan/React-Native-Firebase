@@ -31,7 +31,7 @@ class BodyChat extends Component {
         console.log('data ku', auth.currentUser.email)
         console.log('data pesan', this.state.data)
         return (
-            <ScrollView style={{ flex: 1, backgroundColor: '#FCCAE5' }}>
+            <ScrollView style={{ flex: 1, backgroundColor: '#FCCAE5', marginVertical: 8 }}>
                 {this.state.data &&
                     this.state.data.map((v) => {
                         <>
@@ -41,17 +41,17 @@ class BodyChat extends Component {
                             </View>
                         </>
 
-                        if (v.pengirim == auth.currentUser.email && v.penerima == this.props.data.email || v.pengirim == this.props.data.email && v.penerima == auth.currentUser.email) {
+                        if (v.pengirim == auth.currentUser.email && v.penerima == this.props.data.data.email || v.pengirim == this.props.data.data.email && v.penerima == auth.currentUser.email) {
                             if (v.pengirim == auth.currentUser.email) {
                                 return (
                                     <View style={{ alignItems: 'flex-end' }}>
-                                        <View style={{ borderRadius: 10, minWidth: 100, maxWidth: 250, backgroundColor: '#f07df0', marginHorizontal: 10, marginTop: 10 }}>
+                                        <View style={{ borderRadius: 10, minWidth: 100, maxWidth: 250, backgroundColor: '#fdbce7', marginHorizontal: 10, marginTop: 10 }}>
                                             <View style={{}}>
                                                 <View style={{ margin: 10 }}>
                                                     <Text>
                                                         {v.pesan}
                                                     </Text>
-                                                    <Text style={{ textAlign: 'right', marginTop: -5, color: 'grey', fontSize: 12 }}>{v.jam}</Text>
+                                                    <Text style={{ textAlign: 'right', marginTop: -5, opacity: 0.5, fontSize: 12 }}>{v.jam}</Text>
                                                 </View>
                                             </View>
                                         </View>

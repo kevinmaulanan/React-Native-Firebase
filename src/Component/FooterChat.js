@@ -15,7 +15,7 @@ class FooterChat extends Component {
         const jam = new Date().getHours()
         const menit = new Date().getMinutes()
         const waktu = new Date()
-        const yourEmail = this.props.data.email
+        const yourEmail = this.props.data.data.email
         const myEmail = auth.currentUser.email
 
         try {
@@ -26,7 +26,7 @@ class FooterChat extends Component {
                 date: waktu,
                 jam: jam + '.' + menit
             })
-
+            this.setState({ pesan: '' })
 
         } catch (error) {
             console.log(error)
@@ -37,19 +37,19 @@ class FooterChat extends Component {
     render() {
         console.log(this.state.pesan)
         return (
-            <View style={{ height: 50, backgroundColor: '#FCCAE5', marginVertical: 10 }}>
+            <View style={{ height: 50, backgroundColor: '#FCCAE5', marginVertical: 8 }}>
                 <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#FCCAE5' }}>
                     <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#FCCAE5' }}>
-                        <View style={{ borderRadius: 40, backgroundColor: 'white', marginLeft: 20, width: 275 }}>
+                        <View style={{ borderRadius: 40, backgroundColor: 'white', marginLeft: 12, width: 275 }}>
                             <TextInput placeholder="Tulis Pesan..."
+                                value={this.state.pesan}
                                 style={{ height: 50, fontSize: 15, borderRadius: 10, paddingLeft: 30 }}
                                 onChangeText={(text) => this.setState({ pesan: text })}
                             ></TextInput>
                         </View>
                     </View>
                     <TouchableOpacity onPress={() => this.kirimPesan()}>
-
-                        <View style={{ width: 60, height: 55, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f590e6', borderRadius: 30, marginRight: 2 }}>
+                        <View style={{ width: 57, height: 53, alignItems: 'center', justifyContent: 'center', backgroundColor: '#f590e6', borderRadius: 30, marginRight: 10 }}>
                             <Icon name='md-send' size={26} color="white"></Icon>
                         </View>
                     </TouchableOpacity>

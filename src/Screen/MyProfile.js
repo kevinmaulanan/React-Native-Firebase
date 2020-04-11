@@ -24,6 +24,8 @@ class Profile extends Component {
         filePath: {},
         myId: null,
         myProfile: null,
+        myImage: null,
+        myStatus: null,
         modalVisible: false,
         modalStatus: false,
         fullname: '',
@@ -54,7 +56,13 @@ class Profile extends Component {
 
             for (let i = 0; i < objectArray.length; i++) {
                 if (objectArray[i].email == auth.currentUser.email) {
-                    this.setState({ myProfile: objectArray[i], myId: objectKeys[i] })
+                    this.setState({ myProfile: objectArray[i], myId: objectKeys[i], })
+                    if (objectArray[i].image !== '') {
+                        this.setState({ myImage: 'oke' })
+                    }
+                    if (objectArray[i].status !== '') {
+                        this.setState({ myStatus: 'oke' })
+                    }
                 } else {
 
                 }
@@ -79,6 +87,9 @@ class Profile extends Component {
         db.ref('data-username/' + id).update({
             status: status,
         })
+        if (status == '') {
+            this.setState({ myStatus: null })
+        }
         this.toogleModalStatus()
     }
 
@@ -86,7 +97,7 @@ class Profile extends Component {
         auth.signOut().then(() => {
             console.log('Berhasil Logout')
             console.log(this.props.navigation)
-            this.props.navigation.navigate('LoginScreen')
+            this.props.navigation.navigate('ChatDetailScreen')
         }).catch(function (error) {
             console.log(error)
         })
@@ -129,13 +140,12 @@ class Profile extends Component {
 
             var blob = await uriBlob(this.state.filePath.uri);
             console.log('ini blob', blob)
-            const data = await storage.ref(`images/${image.name}`).put(blob, metadata)
+            const data = await storage.ref(`images-profile/${this.state.myProfile.email}/MyChat-${image.name}`).put(blob, metadata)
             if (data) {
                 storage.ref(data.metadata.fullPath).getDownloadURL().then((downloadURL) => {
                     console.log('File available at', downloadURL)
                     const id = this.state.myId
                     console.log('idnyack', id)
-
                     db.ref('data-username/' + id).update({
                         image: `${downloadURL}`,
                     })
@@ -147,45 +157,6 @@ class Profile extends Component {
     }
 
 
-    //     data.on(firebase.storage.TaskEvent.STATE_CHANGED, // or 'state_changed'
-    //         function (snapshot) {
-    //             // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
-    //             var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    //             console.log('Upload is ' + progress + '% done');
-    //             switch (snapshot.state) {
-    //                 case firebase.storage.TaskState.PAUSED: // or 'paused'
-    //                     console.log('Upload is paused');
-    //                     break;
-    //                 case firebase.storage.TaskState.RUNNING: // or 'running'
-    //                     console.log('Upload is running');
-    //                     break;
-    //             }
-    //         }, function (error) {
-
-    //             // A full list of error codes is available at
-    //             // https://firebase.google.com/docs/storage/web/handle-errors
-    //             switch (error.code) {
-    //                 case 'storage/unauthorized':
-    //                     // User doesn't have permission to access the object
-    //                     break;
-
-    //                 case 'storage/canceled':
-    //                     // User canceled the upload
-    //                     break;
-
-
-    //                 case 'storage/unknown':
-    //                     // Unknown error occurred, inspect error.serverResponse
-    //                     break;
-    //             }
-    //         }, function () {
-    //             // Upload completed successfully, now we can get the download URL
-    //             uploadTask.snapshot.ref.getDownloadURL().then(function (downloadURL) {
-    //                 console.log('File available at', downloadURL);
-    //             });
-    //         });
-    // }
-
 
     render() {
         console.log('myProfile', this.state.myProfile)
@@ -195,12 +166,12 @@ class Profile extends Component {
             <ScrollView style={{ flex: 1, backgroundColor: '#FCCAE5', }} >
                 <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>
                     <TouchableOpacity onPress={() => this.chooseFile()}>
-                        {this.state.myProfile !== null &&
+                        {this.state.myImage !== null &&
                             <Image source={{ uri: `${this.state.myProfile.image}` }} style={{ height: 200, width: 200, borderRadius: 140 }}></Image>
 
                         }
 
-                        {this.state.myProfile == null &&
+                        {this.state.myImage == null &&
                             <Image source={require('../Asset/default_foto.png')} style={{ height: 200, width: 200, borderRadius: 140 }}></Image>
 
                         }
@@ -208,26 +179,35 @@ class Profile extends Component {
                 </View>
 
                 <ScrollView style={{ backgroundColor: 'white' }}>
-                    <View style={{ minHeight: 150, width: '100%', marginHorizontal: 20, marginVertical: 8 }}>
+                    <View style={{ minHeight: 150, width: '100%', marginHorizontal: 20, marginVertical: 8, }}>
                         <View style={{ height: 30 }}>
                             <Text style={{ color: '#f590e6', fontSize: 14 }}>Status dan Username</Text>
                         </View>
 
-                        <View style={{ height: 60, flexDirection: 'row' }}>
+                        <View style={{ height: 60, flexDirection: 'row', }}>
+
                             <View style={{ flex: 2 }}>
-                                {this.state.myProfile !== null &&
+                                {this.state.myStatus !== null &&
                                     <Text style={{ fontSize: 18 }}>{this.state.myProfile.status}</Text>
                                 }
 
-                                {this.state.myProfile == null &&
+                                {this.state.myStatus == null &&
                                     <Text style={{ fontSize: 18 }}>Tidak Ada Status</Text>
                                 }
                                 <Text style={{ fontSize: 14, color: 'grey' }}>Status</Text>
                             </View>
 
-                            <View style={{ flex: 1 }}>
+                            <View style={{ flex: 1, marginTop: 10, opacity: 0.5 }}>
                                 <TouchableOpacity onPress={() => this.setState({ modalStatus: !this.state.modalStatus })}>
-                                    <Text style={{ fontSize: 20, color: 'blue' }}>Edit</Text>
+                                    <View style={{ flexDirection: 'row' }}>
+                                        <View style={{ marginRight: 5 }}>
+                                            <Text style={{ fontSize: 17, color: 'grey' }}>Edit</Text>
+                                        </View>
+
+                                        <View>
+                                            <Icon name='edit' size={22} style={{ color: 'grey' }}></Icon>
+                                        </View>
+                                    </View>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -247,7 +227,15 @@ class Profile extends Component {
                             </View>
                             <View style={{ flex: 1 }}>
                                 <TouchableOpacity onPress={() => this.setState({ modalVisible: !this.state.modalVisible })}>
-                                    <Text style={{ fontSize: 20, color: 'blue' }}>Edit</Text>
+                                    <View style={{ flexDirection: 'row', marginTop: 10, opacity: 0.5 }}>
+                                        <View style={{ marginRight: 5 }}>
+                                            <Text style={{ fontSize: 17, color: 'grey' }}>Edit</Text>
+                                        </View>
+
+                                        <View>
+                                            <Icon name='edit' size={22} style={{ color: 'grey' }}></Icon>
+                                        </View>
+                                    </View>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -336,7 +324,7 @@ class Profile extends Component {
                         transparent={true}
                         visible={this.state.modalStatus}
                         onRequestClose={() => {
-                            this.toogleModalFullname();
+                            this.toogleModalStatus();
                         }}
                     >
                         <View style={{ flex: 2 }}></View>

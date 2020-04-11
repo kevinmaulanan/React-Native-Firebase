@@ -12,6 +12,7 @@ class Profile extends Component {
 
         ],
         profile: {},
+        image: null,
     }
 
     componentDidMount() {
@@ -22,10 +23,14 @@ class Profile extends Component {
         itemsRef.on('value', (res) => {
             let data = res.val();
             const objectArray = Object.values(data)
-            const email = this.props.navigation.state.params.data.email
+            const email = this.props.navigation.state.params.data.data.email
             for (let i = 0; i < objectArray.length; i++) {
                 if (objectArray[i].email == email) {
                     this.setState({ profile: objectArray[i] })
+
+                    if (objectArray[i].image !== '') {
+                        this.setState({ image: 'oke' })
+                    }
                 } else {
 
                 }
@@ -33,13 +38,20 @@ class Profile extends Component {
         })
     }
     render() {
-        console.log(this.state.profile, 'woi')
-
+        console.log(this.state.profile)
+        console.log(this.props.navigation.state.params.data.data, 'params')
+        console.log(this.state.image, 'params')
         return (
             <ScrollView style={{ flex: 1, backgroundColor: '#FCCAE5' }}>
 
                 <View>
-                    <Image source={require('../Asset/default_foto.png')} style={{ height: 200, width: '100%' }}></Image>
+                    {this.state.image == null &&
+                        <Image source={require('../Asset/default_foto.png')} style={{ height: 250, width: '100%' }}></Image>
+                    }
+
+                    {this.state.image !== null &&
+                        <Image source={{ uri: this.state.profile.image }} style={{ height: 250, width: '100%' }}></Image>
+                    }
                 </View>
 
                 <ScrollView style={{ marginTop: 10, backgroundColor: 'white' }}>

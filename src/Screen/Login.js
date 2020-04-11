@@ -53,8 +53,8 @@ class Login extends Component {
                 <View style={{ height: 60, backgroundColor: '#f590e6', justifyContent: 'center' }}>
                     <Text style={{ color: 'white', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}>Login Screen App</Text>
                 </View>
-                <View style={{ height: 90, justifyContent: 'center', }}>
-                    <Image source={require('../Asset/Logo.png')} style={{ height: 120, width: 120 }} />
+                <View style={{ height: 150, justifyContent: 'center', alignItems: 'center', marginTop: 15, marginBottom: 5 }}>
+                    <Image source={require('../Asset/Logo.png')} style={{ height: 150, width: 150 }} />
                 </View>
 
                 {this.state.message !== '' &&
@@ -82,7 +82,7 @@ class Login extends Component {
                     </View>
                 </View>
 
-                <View style={{ height: 90, justifyContent: 'center', }}>
+                <View style={{ height: 90, justifyContent: 'center', marginTop: -10 }}>
                     <TouchableOpacity onPress={() => this.handleLoginUser()}>
                         <View style={{ height: 60, marginHorizontal: 30, borderRadius: 5, justifyContent: 'center', backgroundColor: '#f590e6' }}>
                             <Text style={{ color: 'white', textAlign: 'center', fontSize: 20, fontWeight: 'bold' }}>Login</Text>
