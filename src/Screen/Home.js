@@ -31,7 +31,7 @@ class HomeScreen extends Component {
                 <View style={{ height: 105, backgroundColor: '#f590e6' }}>
                     <View style={{ height: 50, flexDirection: 'row', marginTop: 5 }}>
                         <View style={{ width: 130, justifyContent: 'center', alignItems: 'center' }}>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('MyProfileScreen')}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('GoogleMaps')}>
                                 <Image source={require('../Asset/Navbar.png')} style={{ width: 95, height: 25 }} ></Image>
                             </TouchableOpacity>
                         </View>

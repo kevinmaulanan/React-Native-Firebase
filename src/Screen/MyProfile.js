@@ -159,9 +159,7 @@ class Profile extends Component {
 
 
     render() {
-        console.log('myProfile', this.state.myProfile)
-        console.log('myProfile', this.state.fullname)
-        console.log(this.state.modalVisible)
+        console.log('auth', auth)
         return (
             <ScrollView style={{ flex: 1, backgroundColor: '#FCCAE5', }} >
                 <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>

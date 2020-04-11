@@ -5,10 +5,13 @@ import Icon from 'react-native-vector-icons/Ionicons'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { auth, db } from '../Config/firebase'
 
+
 class FooterChat extends Component {
     state = {
         pesan: '',
     }
+
+
 
     kirimPesan() {
         const pesan = this.state.pesan
@@ -31,11 +34,13 @@ class FooterChat extends Component {
         } catch (error) {
             console.log(error)
         }
-
     }
 
+
+
     render() {
-        console.log(this.state.pesan)
+        console.log(this.state.longtitudeSend)
+        console.log(this.state.langtitudeSend)
         return (
             <View style={{ height: 50, backgroundColor: '#FCCAE5', marginVertical: 8 }}>
                 <View style={{ flex: 1, flexDirection: 'row', backgroundColor: '#FCCAE5' }}>
@@ -55,7 +60,7 @@ class FooterChat extends Component {
                     </TouchableOpacity>
 
                 </View>
-            </View>
+            </View >
         )
     }
 }

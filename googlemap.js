@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
-import { StyleSheet, View, Button, Image, Text, TextInput, FlatList, ScrollView, YellowBox } from 'react-native';
+import { StyleSheet, View, Button, Image, Text, TextInput, FlatList, ScrollView, YellowBox, Linking } from 'react-native';
 import { db } from './src/Config/firebase';
+import Geolocation from '@react-native-community/geolocation';
 
+
+
+import { TouchableOpacity } from 'react-native-gesture-handler'
 YellowBox.ignoreWarnings([
     'VirtualizedLists should never be nested',
     'VirtualizedList: missing keys for items',
@@ -12,17 +16,29 @@ YellowBox.ignoreWarnings([
     'Setting a timer for a long period'
 ])
 
-export default class App extends Component {
+
+
+class GoogleMaps extends Component {
 
     state = {
         name: '',
         latitude: null,
         longitude: null,
+        latitude1: null,
+        longitude2: null,
         data: [],
     }
 
     componentDidMount() {
         this.listenData()
+        this.geo()
+    }
+
+    geo() {
+        Geolocation.getCurrentPosition(info =>
+            this.setState({ latitude1: info.coords.latitude, longitude2: info.coords.longitude })
+
+        )
     }
 
     handleSend() {
@@ -45,13 +61,6 @@ export default class App extends Component {
         }
     }
 
-    updateData() {
-
-    }
-
-    deleteData() {
-
-    }
 
 
     listenData() {
@@ -71,32 +80,28 @@ export default class App extends Component {
             latitude: -6.5950181,
             longitude: 106.7218509,
             latitudeDelta: 0.02,
-            longitudeDelta: 0.02,
+            longitudeDelta: 0.01,
         })
     }
 
 
-    handleBalik() {
-        this.refs.map.animateToRegion({
-            latitude: -6.5950181,
-            longitude: 106.7218509,
-            latitudeDelta: 0.015,
-            longitudeDelta: 0.0121,
-        })
-    }
 
     render() {
+        console.log(this.state.longitude2)
+        console.log(this.state.latitude1)
         console.log('datadatadatadatadatadata', this.state.data)
         return (
+
             <View style={styles.container}>
+
                 <View style={{ flex: 1, marginBottom: 20 }}>
                     <MapView
                         ref="map"
                         provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                         style={styles.map}
                         region={{
-                            latitude: -6.5950181,
-                            longitude: 106.7218509,
+                            latitude: -6.58295,
+                            longitude: 106.7555,
                             latitudeDelta: 0.015,
                             longitudeDelta: 0.0121,
                         }}
@@ -104,7 +109,7 @@ export default class App extends Component {
 
                         {this.state.data !== [] &&
                             this.state.data.map((item, index) =>
-                                < MapView.Marker
+                                <MapView.Marker
                                     coordinate={{
                                         latitude: parseFloat(item.latitude),
                                         longitude: parseFloat(item.longitude),
@@ -127,8 +132,9 @@ export default class App extends Component {
 
 
 
+
                 <ScrollView style={{ flex: 2 }}>
-                    <Button onPress={() => this.handleMove()} title="Pindah"></Button>
+                    <Button onPress={() => Linking.openURL('https://www.google.com/maps/search/?api=1&query=37.484847,-122.148386')} title="Pindah"></Button>
                     <View style={{ flex: 1 }}>
                         <View style={{ flex: 1 }}>
                             <TextInput
@@ -180,3 +186,5 @@ const styles = StyleSheet.create({
 
     },
 });
+
+export default GoogleMaps
