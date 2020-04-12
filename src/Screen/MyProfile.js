@@ -93,7 +93,7 @@ class Profile extends Component {
 
     logoutUser() {
         auth.signOut().then(() => {
-            this.props.navigation.navigate('SearchSceen')
+            this.props.navigation.navigate('LoginScreen')
         }).catch(function (error) {
         })
     }

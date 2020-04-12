@@ -64,7 +64,7 @@ class BodyAddFriends extends Component {
                                         </TouchableOpacity>
                                     </View>
                                     <View style={{ flex: 4, flexDirection: 'row', marginRight: 10, marginLeft: 20, borderRadius: 15, justifyContent: 'center', alignItems: 'center' }}>
-                                        < View style={{ flex: 3 }}>
+                                        < View style={{ flex: 3, marginRight: 10 }}>
                                             <TouchableOpacity onPress={() => this.props.navigation.navigate('ChatDetailScreen', { data: item })}>
                                                 < Text style={{ fontSize: 18 }}>{item.username}</Text>
                                             </TouchableOpacity>

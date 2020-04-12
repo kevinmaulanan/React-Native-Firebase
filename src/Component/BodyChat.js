@@ -128,7 +128,7 @@ class BodyChat extends Component {
                             } else if (v.penerima == auth.currentUser.email) {
                                 if (v.pesan) {
                                     return (
-                                        <View style={{ marginHorizontal: 1, marginTop: 10, alignItems: 'flex-start' }}>
+                                        <View style={{ marginHorizontal: 4, marginTop: 10, alignItems: 'flex-start' }}>
                                             <View style={{ marginHorizontal: 5, marginVertical: 1, minWidth: 100, maxWidth: 140, backgroundColor: 'white', borderRadius: 10, }}>
                                                 <View style={{ minWidth: 80, margin: 6 }}>
                                                     <Text>
@@ -150,23 +150,36 @@ class BodyChat extends Component {
                                                             latitude: v.latitude, longitude: v.longitude, latitudeDelta: 0.015, longitudeDelta: 0.0121,
                                                         }}
                                                         >
+
                                                             <MapView.Marker coordinate={{
                                                                 latitude: v.latitude, longitude: v.longitude,
                                                             }}
                                                                 anchor={{ x: 0.5, y: 0.4 }}
                                                                 title="Lokasi"
                                                                 description="kevin" >
-                                                                <View>
-                                                                    <Image source={{ uri: this.props.data.data.image }} style={{ width: 40, height: 40, borderRadius: 40, borderWidth: 1, borderColor: 'blue' }}></Image>
-                                                                    <Text style={{ textAlign: 'center' }}>{this.props.data.data.username}</Text>
-                                                                </View>
+
+                                                                {this.props.data.data.image == '' &&
+                                                                    <View style={{ alignItems: 'center' }}>
+                                                                        <Image source={require('../Asset/default_foto.png')} style={{ width: 40, height: 40, borderRadius: 50 }}></Image>
+                                                                        <Text style={{}}>{this.props.data.data.username}</Text>
+
+                                                                    </View>
+                                                                }
+
+                                                                {this.props.data.data.image !== '' &&
+                                                                    <View>
+                                                                        <Image source={{ uri: this.props.data.data.image }} style={{ width: 40, height: 40, borderRadius: 50 }}></Image>
+                                                                        <Text style={{ textAlign: 'center' }}>{this.props.data.data.username}</Text>
+                                                                    </View>
+                                                                }
+
                                                             </MapView.Marker>
 
                                                         </MapView>
                                                     </View>
                                                     <View style={{ margin: 10 }}>
                                                         <Button transparent onPress={() => Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${v.latitude},${v.longitude}`)}>
-                                                            <Text style={{ fontSize: 16, color: 'blue' }}>https://www.google.com/maps/search/?api=1&query={v.latitude},{v.longitude}</Text>
+                                                            <Text style={{ fontSize: 16, color: '#547cff' }}>https://www.google.com/maps/search/?api=1&query={v.latitude},{v.longitude}</Text>
                                                         </Button>
                                                         <Text style={{ textAlign: 'right', marginTop: -5, opacity: 0.5, fontSize: 12 }}>{v.jam}</Text>
                                                     </View>
