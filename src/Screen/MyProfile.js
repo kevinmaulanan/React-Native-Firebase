@@ -73,7 +73,6 @@ class Profile extends Component {
     updateFullName() {
         const fullname = this.state.fullname
         const id = this.state.myId
-        console.log(id)
         db.ref('data-username/' + id).update({
             username: fullname,
         })
@@ -83,7 +82,6 @@ class Profile extends Component {
     updateStatus() {
         const status = this.state.status
         const id = this.state.myId
-        console.log(status)
         db.ref('data-username/' + id).update({
             status: status,
         })
@@ -95,11 +93,8 @@ class Profile extends Component {
 
     logoutUser() {
         auth.signOut().then(() => {
-            console.log('Berhasil Logout')
-            console.log(this.props.navigation)
-            this.props.navigation.navigate('ChatDetailScreen')
+            this.props.navigation.navigate('SearchSceen')
         }).catch(function (error) {
-            console.log(error)
         })
     }
 
@@ -139,13 +134,11 @@ class Profile extends Component {
             };
 
             var blob = await uriBlob(this.state.filePath.uri);
-            console.log('ini blob', blob)
             const data = await storage.ref(`images-profile/${this.state.myProfile.email}/MyChat-${image.name}`).put(blob, metadata)
             if (data) {
                 storage.ref(data.metadata.fullPath).getDownloadURL().then((downloadURL) => {
-                    console.log('File available at', downloadURL)
+
                     const id = this.state.myId
-                    console.log('idnyack', id)
                     db.ref('data-username/' + id).update({
                         image: `${downloadURL}`,
                     })
@@ -159,7 +152,6 @@ class Profile extends Component {
 
 
     render() {
-        console.log('auth', auth)
         return (
             <ScrollView style={{ flex: 1, backgroundColor: '#FCCAE5', }} >
                 <View style={{ alignItems: 'center', justifyContent: 'center', marginVertical: 10 }}>

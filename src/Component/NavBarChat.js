@@ -61,10 +61,7 @@ class NavBarChat extends Component {
     }
 
     render() {
-        console.log('asad', this.state.longtitudeSend)
-        console.log('adas', this.state.latitudeSend)
-        console.log('adas', this.props.data.data.email)
-        console.log('adas', auth.currentUser.email)
+        console.log(this.props.data)
         return (
             <View style={{ flexDirection: 'row', height: 55, backgroundColor: '#f590e6', }}>
                 <View style={{ width: 40 }}>

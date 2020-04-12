@@ -36,7 +36,14 @@ class HomeScreen extends Component {
                             </TouchableOpacity>
                         </View>
 
-                        <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center', marginHorizontal: 20 }}>
+                        <View style={{ flex: 1, alignItems: 'flex-end', justifyContent: 'center' }}>
+                            <TouchableOpacity onPress={() => this.props.navigation.navigate('SearchScreen')}>
+                                <Icon name='search' size={20} color="white"></Icon>
+                            </TouchableOpacity>
+
+                        </View>
+
+                        <View style={{ width: 30, alignItems: 'flex-end', justifyContent: 'center', marginHorizontal: 20 }}>
                             <TouchableOpacity onPress={() => this.toogleModalSetting()}>
                                 <Icon name="ellipsis-v" size={20} color="white" />
                             </TouchableOpacity>

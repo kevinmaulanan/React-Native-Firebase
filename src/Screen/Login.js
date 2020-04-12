@@ -46,8 +46,7 @@ class Login extends Component {
 
 
     render() {
-        console.log(this.state.password)
-        console.log(auth)
+
         return (
             <ScrollView style={{ flex: 1 }}>
                 <View style={{ height: 60, backgroundColor: '#f590e6', justifyContent: 'center' }}>

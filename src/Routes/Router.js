@@ -10,6 +10,7 @@ import HomeScreen from '../Screen/Home'
 import ChatDetailScreen from '../Screen/ChatDetail'
 import ProfileScreen from '../Screen/Profile'
 import MyProfileScreen from '../Screen/MyProfile'
+import SearchScreen from '../Screen/Search'
 import GoogleMaps from '../../googlemap'
 
 
@@ -18,6 +19,7 @@ const privateNavigator = createStackNavigator({
     ChatDetailScreen,
     ProfileScreen,
     MyProfileScreen,
+    SearchScreen,
     GoogleMaps
 }, {
     headerMode: 'none'
